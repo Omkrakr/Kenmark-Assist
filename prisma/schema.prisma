@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url = env("DATABASE_URL")
+}
+
+model Knowledge {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  category  String   // About, Services, FAQ, Contact, etc.
+  question  String?
+  answer    String
+  source    String   // website, excel, manual
+  metadata  Json?    // Additional metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([question])
+  @@map("knowledge")
+}
+
+model ChatSession {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId String   @unique
+  messages  Json     // Array of messages
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId String
+  role      String   // user, assistant
+  content   String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([sessionId])
+  @@map("chat_messages")
+}
+
+model Analytics {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  question  String
+  count     Int      @default(1)
+  lastAsked DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([question])
+  @@map("analytics")
+}
