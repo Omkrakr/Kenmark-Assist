@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { parseExcelBuffer, saveExcelKnowledge } from '@/lib/excel-parser'
 
+// Ensure Node.js runtime (needed for Buffer and Prisma)
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()

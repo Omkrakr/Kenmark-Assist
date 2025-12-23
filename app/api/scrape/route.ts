@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { scrapeWebsite, saveScrapedContent } from '@/lib/scraper'
 
+// Ensure Node.js runtime (needed for axios, cheerio, Prisma)
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     const { url } = await request.json()

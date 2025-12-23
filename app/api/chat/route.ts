@@ -3,6 +3,9 @@ import { generateResponse } from '@/lib/ollama-client'
 import { prisma } from '@/lib/prisma'
 import { randomUUID } from 'crypto'
 
+// Ensure Node.js runtime (needed for Prisma and crypto)
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     const { message, sessionId } = await request.json()
